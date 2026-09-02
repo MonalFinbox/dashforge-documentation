@@ -1,0 +1,43 @@
+---
+title: Creating a Tab
+description: Add a top-level tab or a sub-tab, and choose how its name is set.
+---
+
+In the Layers Panel, make sure **Tabs** is selected, then click the `+` next to
+the Tab dropdown. This opens **Add New Tab**:
+
+<Screenshot
+  src="SS-05.jpg"
+  alt="The Add New Tab modal with tab level and naming options"
+  caption="Adding a top-level tab with a custom name."
+/>
+
+## What are you creating?
+
+- **Top-level tab**: appears directly in the dashboard's tab bar (the main
+  navigation a live user sees).
+- **Sub-tab**: nested inside an existing top-level tab, for a second level of
+  navigation.
+
+## How should the name be set?
+
+- **From product config (Default)**: the Tab Name field becomes a **dropdown of
+  fixed options**, not a free text box. These names (and the page route behind
+  them) come from your product's predefined configuration, they're standard
+  pages the system already expects for this product type, so you pick from the
+  list rather than typing, to keep the tab wired up correctly to existing
+  product logic.
+- **Custom name (UI Config)**: the Tab Name field becomes a normal text box. You
+  type any name you want. This tab is purely presentational, it isn't tied to a
+  predefined product route, so you have full control over its name and content,
+  but it also won't inherit any built-in behaviour a standard product tab might
+  have.
+
+<Callout type="tip">
+**Rule of thumb:** use *From product config* when you're building a standard
+page the product already expects (e.g. a core step in the loan process). Use
+*Custom name* when you're adding something extra of your own.
+</Callout>
+
+Pick **Top-level tab** + **Custom name (UI Config)**, name it `Test Tab 1`, and
+click **Add Tab**.

@@ -1,0 +1,143 @@
+---
+title: Components
+description: Wire a reusable block to an entity in your system and choose how its content is built.
+---
+
+A **component** is a reusable block that you build once and place inside tabs,
+instead of rebuilding the same thing on every page. But a component is also more
+powerful than an ordinary section: it can be wired to an **entity** in your
+system (like a Task or a Collateral record) and can pull its content from a
+chosen **source** at runtime. This chapter explains every setting so a new user
+knows exactly what each one does.
+
+<Callout type="tip">
+New to components? Read [Tabs and Components](/docs/tabs-and-components) first
+for the simple idea. This chapter covers the full configuration.
+</Callout>
+
+## Adding a component
+
+Switch the Layers Panel to **Components**, click the `+`, give it a name, and
+click **Add Component** (covered in
+[Creating a Component](/docs/creating-a-component)). Selecting the component
+opens **Component Properties**:
+
+<Video src="SS-13.mp4" caption="Configuring a component and choosing its config type." />
+
+## Component settings
+
+### Component Label
+
+The component's display name (e.g. `New Component`). This is what you and your
+team see in the builder.
+
+### Component Type
+
+How the component is presented. The options come from your product's
+configuration; common ones are **Form** and **Sidebar**. For example,
+**Sidebar** shows the component's content in a side panel, while **Form** lays it
+out inline. Pick the presentation that fits where you're using it.
+
+### Visibility
+
+The standard three-state control: **Hidden**, **Visible**, or **Conditional**
+(shown only when the Visibility Logic expression is true).
+
+### Builder Component
+
+This is the part that connects the component to real data. It answers "which
+record does this component represent, and what type of thing is it?" It has
+three inputs:
+
+- **entityID**: the identifier of the specific record this component is tied to.
+  An **entity** is a single object in your system, for example one particular
+  task or one collateral record; the **entityID** is that object's unique ID.
+  Leave it blank if the component isn't tied to one fixed record.
+- **entity type**: the *kind* of entity, chosen from a dropdown (for example
+  **Task** or **Colletral**/Collateral). This tells the system what category of
+  record the component works with.
+- **relevantTo**: a free-text field that scopes where this component is relevant
+  (for example which stage or context it applies to). Fill it only if your setup
+  uses it.
+
+In short: **entity type** is the category (Task, Collateral, ...), and
+**entityID** is the one specific record within that category.
+
+### Button Name
+
+The name of the button that opens or triggers this component in the running
+dashboard (for example `openSidebar`). This is the label the system uses for the
+action that surfaces the component.
+
+## Add config
+
+At the bottom is an **Add config** button. Clicking it asks **"Choose config
+type:"** and offers three ways to define what the component actually renders:
+
+- **Default**: use the standard, built-in rendering. Choose this when the
+  component doesn't need custom-built content, it just follows the default
+  behaviour for its type.
+- **Journey**: build the component's content using the **Journey** builder (a
+  linked journey/flow). Choose this when the component should show a configured
+  journey. Selecting it asks you to save your current changes first, then opens
+  the journey configuration.
+- **Dashboard**: build the component's content right here using the same UI
+  Builder tools (sections, fields, documents), as its own mini-dashboard. Choose
+  this when you want to design the component's insides by hand. Selecting it
+  saves your work, switches the panel into that component's build view, and lets
+  you add sections and fields inside it.
+
+Once you pick one, the button changes to **Configure (Active: type)** so you can
+see and revisit the choice you made.
+
+<Callout>
+Saving is required before adding a config, because the component must exist on
+the server before its inner content can be attached. Dashforge will prompt you
+with "Save and Continue" when needed.
+</Callout>
+
+## What each choice opens
+
+### Default and Journey open the Edit Config editor
+
+Both **Default** and **Journey** open the same popup, **Edit Config**. This is an
+advanced builder for defining the component's form and the data behind it. Its
+main parts:
+
+- **UI Editor / JSON Editor**: two ways to build the same config, a visual editor
+  or the raw JSON. A **Valid JSON** indicator confirms your config is
+  well-formed.
+- **Add Field / Field Editor**: add fields to the component's form and edit the
+  selected field's details.
+- **Create Single Submit**: adds one "submit" step that sends the whole form's
+  data together in a single action, instead of saving each field on its own. Use
+  it when the component is a form the user fills in and submits once (for example
+  a small data-entry form). Choosing exactly what gets sent is technical, so set
+  this up with a technical teammate.
+- **Add GraphQL**: connects the component to a data query so it can pull live
+  information from your system. ("GraphQL" is simply the language used to ask the
+  system for specific data.) Use it when the component needs to show data that
+  isn't already on the page. Writing the query is a developer task, so add this
+  with help from someone technical.
+- **Generate JSON with AI** (⌘K): the easiest starting point. Describe what you
+  want and it drafts the configuration for you, which you (or a teammate) can
+  then review and adjust. Good when you don't know how to write the config by
+  hand.
+- **Save**: saves the config.
+
+<Callout type="warning">
+This editor is powerful and fairly technical. Unless you're comfortable with
+form/JSON configuration, build these together with a technical teammate, or start
+from **Generate JSON with AI** and refine.
+</Callout>
+
+### Dashboard opens an inline build view
+
+Choosing **Dashboard** doesn't open a popup. Instead the builder switches into
+that component's own build view (shown beside the tab), where the Layers Panel
+now lists the *component's* Sections, Line Items, Documents, Actions, and
+Components, all empty to start. You then build the component's insides using the
+exact same tools as a tab (add a section, add fields, and so on). The canvas
+shows the component's placeholder next to the main page content.
+
+To go back, switch the Layers Panel from the component back to **Tabs**.

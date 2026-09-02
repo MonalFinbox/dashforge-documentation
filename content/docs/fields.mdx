@@ -1,0 +1,115 @@
+---
+title: Fields
+description: A single piece of information shown inside a section, and every setting that controls it.
+---
+
+A **field** is a single piece of information shown inside a section, such as
+"Application ID", "Name", or "Loan Amount". Fields are where the dashboard
+actually displays data to the user, so this is the most detailed screen in the
+builder.
+
+## Adding a field
+
+With a section selected, click the `+` next to **Fields** in the Properties
+Panel. The **Add New Field** box asks for one thing:
+
+- **Field Label**: the name shown next to the value (e.g. `Application ID`).
+  Dashforge automatically creates an internal ID from this label, so you only
+  type the label.
+
+Enter a label and click **Add Field**. The new field is selected and its full
+settings open in the Properties Panel.
+
+<Video src="SS-09.mp4" caption="Adding a field and opening its settings." />
+
+## Field Properties
+
+### Label
+
+The text shown beside the value. Editing it updates the canvas instantly.
+
+### Icon
+
+A toggle (**Visible / Hidden**) for showing a small icon next to the field. When
+on, you set:
+
+- **Source**: where the icon comes from, **CDN** (you paste an **URL**) or
+  **Heroicons** (you type a Heroicon name).
+- **Orientation**: whether the icon sits to the **Left** or **Right** of the
+  field.
+- **URL / Heroicon name**: the actual icon value, matching the source you chose.
+
+### Value Source
+
+This is what the field displays. Pick how the value is supplied:
+
+- **Pre-mapped**: choose a ready-made data source from the dropdown. These are
+  values already connected to your data (this is the normal choice). If the one
+  you need isn't listed, click **Map Source** to create it.
+- **JQ Field**: type a JQ expression to compute the value yourself, when no
+  ready-made source fits. Use this only when Pre-mapped can't give you what you
+  need.
+
+#### Map Source
+
+Opens a small panel to connect a brand-new value. You fill in:
+
+- **Field Name**: a name for this value.
+- **Table Name**: the table the value lives in.
+- **Column Name**: the column within that table.
+- **Field Type**: the kind of data, **String**, **Integer**, **Float**,
+  **Boolean**, or **Time**.
+
+Click **Save** and the new source is created and selected as this field's value.
+From then on it also appears in the Pre-mapped dropdown for reuse.
+
+### The three-state pattern
+
+The next three settings (Visibility, Editable, Mandatory) all work the same way,
+so it's worth learning the pattern once. Each has a main toggle, and the label
+next to it changes to show the current state:
+
+- Toggle **off**: the "off" state applies always (Hidden / Read-only /
+  Optional).
+- Toggle **on**: the "on" state applies always (Visible / Editable / Required).
+- Toggle **on + rule Enabled**: the label reads **Conditional**, and a box
+  appears for a JQ expression. The setting now applies only when your condition
+  is true.
+
+When a toggle is on, a second row appears (**Disable / Enable**) that turns that
+condition on or off. Leave it on **Disable** for simple always-on/off behaviour;
+switch to **Enable** only when you need the rule.
+
+### Visibility
+
+Controls whether the field is shown at all: **Hidden**, **Visible**, or
+**Conditional** (shown only when the **Visibility Logic** expression is true).
+
+### Editable
+
+Controls whether the user can change the field's value: **Read-only**,
+**Editable**, or **Conditional** (editable only when the **Editable Rule**
+expression is true).
+
+### Mandatory
+
+Controls whether the field must be filled in: **Optional**, **Required**, or
+**Conditional** (required only when the **Mandatory Rule** expression is true).
+
+### Tag
+
+An optional badge shown beside the field (e.g. a small "Verified" or "New"
+label). When enabled you set its **Tag label**, its own **Visibility**, and its
+own **Value Source** (Pre-mapped or JQ, exactly like the field's value), so the
+badge text can be static or data-driven.
+
+### Actions
+
+Buttons attached directly to the field. Covered in
+[Field Actions](/docs/field-actions).
+
+<Callout>
+**Nested Fields** also appear here, but only when the field lives inside a
+Dynamic Section or a Line Item. They let one field hold several labeled
+sub-values.
+</Callout>

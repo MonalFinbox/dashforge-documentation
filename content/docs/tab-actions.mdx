@@ -1,0 +1,30 @@
+---
+title: Tab Actions
+description: Page-wide buttons that belong to the whole tab rather than a single field.
+---
+
+The **Actions** section in the Layers Panel holds buttons that belong to the
+whole **tab**, rather than to a single field or document. These are the
+top-level buttons a user sees on the page (for example a page-wide "Refresh" or
+"Submit").
+
+## Adding a tab action
+
+With a tab selected, click the `+` next to **ACTIONS**. A new button is created
+and its editor opens. The settings are the same as field actions:
+
+- **Button Name**: the text on the button.
+- **Icon**: optional icon (Source, Orientation, value).
+- **Button Type**: fixed to **Primary**.
+- **Action Type**: **API** (build a custom call) or **Function** (run a
+  ready-made backend function, chosen from a dropdown).
+- **Edit Action Config**: opens the **API Config** / **UI Config** JSON panels to
+  review or edit the request, then **Save Config**.
+- **Visibility**: three-state control (Hidden / Visible / Conditional).
+
+<Callout>
+This is the exact same editor covered in
+[Field Actions](/docs/field-actions). The only difference is that the button
+lives on the tab instead of on a field. Refer to that chapter for full detail on
+Function vs API and the config panels.
+</Callout>

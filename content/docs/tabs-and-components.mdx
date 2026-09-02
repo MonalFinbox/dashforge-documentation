@@ -1,0 +1,37 @@
+---
+title: Tabs and Components
+description: Tabs are the pages users navigate between. Components are reusable pieces you place inside them.
+---
+
+The Layers Panel has two view modes, **Tabs** and **Components**. Before
+building anything, it helps to know what each one actually represents.
+
+## What is a Tab?
+
+A **Tab** is a page or screen of your dashboard, the kind of thing a user clicks
+through in the left navigation once the dashboard is live (e.g. "Applications",
+"Documents", "Disbursal"). Each tab has its own sections, fields, documents, and
+actions. When you publish, every tab becomes a visible page in the running
+dashboard.
+
+## What is a Component?
+
+A **Component** is a reusable block, a group of sections/fields you build once
+and can drop into multiple tabs, instead of rebuilding the same block on every
+page. Use it for things that repeat across several tabs, like an "Applicant
+Info" summary you want visible on both the Applications page and the Disbursal
+page. If something only appears on one page, it belongs directly on that tab,
+not as a Component.
+
+In short: **Tabs are the pages users navigate between. Components are reusable
+pieces you can reuse across those pages.**
+
+## Nesting
+
+Both can also be nested: a tab can have **sub-tabs** (a second navigation level
+inside it, e.g. sub-sections of "Applications"), and a component can have
+**sub-components** (smaller pieces nested inside a bigger reusable block).
+
+<Callout type="tip">
+You'll only need nesting for more advanced layouts. Skip it for now.
+</Callout>

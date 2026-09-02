@@ -1,0 +1,46 @@
+---
+title: Line Items
+description: A repeating block that renders many similar entries, like tasks or workflow stages.
+---
+
+A **line item** is a repeating block that represents a task or workflow entry,
+shown either as a card or a row in a list. Where a section shows one set of
+fields, a line item is meant to render *many* similar entries (for example a
+list of pending tasks or workflow stages for an application). You define one
+line item's layout, and the dashboard repeats it for each entry in the data.
+
+## Adding a line item
+
+With a tab selected, click the `+` next to **LINE ITEMS** in the Layers Panel.
+The **Add New Line Item** box opens:
+
+<Video src="SS-11.mp4" caption="Creating a line item and setting its type." />
+
+- **Item Type**: how each entry looks, either **Card** or **List**.
+- **Linked Item**: what the line item is tied to:
+  - **Task**: the entries come from tasks.
+  - **Workflow**: the entries come from workflow stages.
+  - **None**: not tied to either.
+- **Task Type**: appears only when **Linked Item = Task**. It's a multi-select of
+  task categories (e.g. **Deviation**, **Sanction**). Pick one or more to limit
+  which tasks this line item shows. Click a chip to toggle it; your choices show
+  under "Selected:".
+- **Item Name**: a name for the line item (e.g. `Pending Tasks`).
+
+Fill these in and click **Add Line Item**.
+
+## Line Item Properties
+
+Selecting the line item opens its settings:
+
+- **Name**: editable label for the line item.
+- **Type** and **Linked Item**: shown read-only, since they're set when you
+  create the line item and can't be changed afterward.
+- **Task Types**: shown read-only as chips, only when the linked item is Task.
+- **Visibility**: the same three-state control (**Hidden**, **Visible**, or
+  **Conditional** via a Visibility Logic expression).
+- **Field (n/1)**: a line item holds a **single field**, which acts as the
+  template for each repeating entry. Click the `+` to add it (the `+` disappears
+  once one field exists). That field can contain **nested fields**, letting one
+  entry show several labeled values (the same nested-fields behaviour described
+  in [Fields](/docs/fields)).

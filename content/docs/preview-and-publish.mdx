@@ -1,0 +1,167 @@
+---
+title: Preview and Publish
+description: Check your work, keep it as a draft, and ship it, one tab at a time or the whole dashboard.
+---
+
+The three buttons in the top-right, **Preview**, **Save**, and **Publish**, are
+how you check your work, keep it, and make it live. They're the last step of
+building a dashboard.
+
+## Preview
+
+**Preview** switches the builder into a view-only mode that shows the dashboard
+the way an end user would see it, without the editing handles. Nothing you click
+changes the design. Click **Preview** again to return to editing.
+
+Use it to sanity-check layout and content before saving or publishing.
+
+## Save
+
+**Save** stores your current work to the server as a **draft**. It does not make
+anything live; it just makes sure your changes aren't lost. Save often.
+
+- If you're editing a tab, Save saves that tab.
+- If you're inside a component's build view, Save saves that component.
+
+A confirmation ("Tab saved successfully") appears when it's done.
+
+<Callout>
+Save keeps a draft. Users of the real dashboard see nothing until you
+**Publish**.
+</Callout>
+
+## Publish
+
+Dashforge has **two separate Publish actions**. Both open a similar-looking
+**Publishing Environment** popup with an environment picker, but they publish
+different things depending on where you click them, don't mix them up.
+
+### Before publishing to a new environment: create it in Pickle
+
+The environments in the **Choose Environment** dropdown (`uat`, `uat2`, `uat10`,
+`prod`, ...) aren't invented by the builder, each one is a **namespace** that has
+to already exist in **Pickle**, Dashforge's internal reference-data tool. The
+dropdown only lists namespaces that already exist there.
+
+- If the environment you need isn't in the dropdown, it hasn't been created yet.
+  Ask your AE/engineering team to create that namespace in Pickle first, using
+  the exact name you intend to publish to, that name is sent as-is when you
+  publish, so it has to match.
+- Once the namespace exists in Pickle, you don't need to create anything else
+  there yourself. Publishing from the builder automatically populates the
+  dashboard's resource inside it.
+
+This is a one-time setup per environment, not something you repeat for every
+dashboard.
+
+### Naming per-component and per-section Pickle resources
+
+<Callout type="warning">
+This part is for the AE or engineer wiring up a dashboard's backend config, not
+for everyday dashboard building. Skip it unless you're the one creating resources
+in Pickle.
+</Callout>
+
+Beyond the environment namespace above, some builder features (a component's
+config, its GraphQL query, a section's Single Submit) each write into their
+**own** Pickle resource, scoped to that specific component or section. **Publish
+never creates these resources**, it only writes into ones that already exist. If
+the resource isn't there yet under the exact expected name, publish still
+"succeeds", but that piece won't resolve at runtime.
+
+Each resource's name is a fixed prefix followed by a set of parameter **values**,
+joined with underscores, in this order:
+
+| Feature | Prefix | Parameters (in order) |
+| --- | --- | --- |
+| Component config, Default / Journey ("Edit Config" editor) | `ui_config_` | `service`, `unique_id` |
+| Component built inline as its own mini-dashboard ("Dashboard" config type) | `ui_builder_` | `component_name`, `entity_type`, `item_id`, `relevant_to`, `service`, `unique_id` |
+| A section-level config (e.g. a section's own **EDIT CONFIG**) | `ui_builder_` | `service`, `unique_id`, `section_id` |
+| Dashboard-level GraphQL query | `graphql_` | `service`, `unique_id` |
+| A component's **Add GraphQL** query | `ui_builder_graphql_` | `component_name`, `entity_type`, `item_id`, `relevant_to`, `service`, `unique_id` |
+| A section's GraphQL query (e.g. tied to a section's edit action) | `ui_builder_graphql_` | `service`, `unique_id`, `section_id` |
+| A section's **Create Single Submit** config | `single_submit_` | `service`, `unique_id`, `section_id` |
+
+For example, a component's inline "Dashboard" config resource is named:
+
+```
+ui_builder_<component_name>_<entity_type>_<item_id>_<relevant_to>_<service>_<unique_id>
+```
+
+Where to find each value in the builder:
+
+- **service**: `lender_dashboard` or `platform_dashboard`, this is fixed by the
+  **Dashboard Type** chosen when the dashboard was created (see
+  [Creating a Dashboard](/docs/creating-a-dashboard)), not something you choose
+  separately.
+- **unique_id**: the dashboard's own **Unique ID** (the same `unique_id` /
+  Client ID set at creation for a Lender Dashboard).
+- **component_name**, **entity_type**, **item_id**, **relevant_to**: the values
+  entered in that component's **Builder Component** settings (see
+  [Components](/docs/components)). `item_id` is the field labelled **entityID**
+  in the builder; `entity_type` and `relevant_to` are the **entity type** and
+  **relevantTo** fields right next to it.
+- **section_id**: the internal ID of that specific section.
+
+The environment namespace above is a one-time setup per environment. These
+resources are different, create one per component or section that actually needs
+it, inside whichever namespace you're publishing to. If you're unsure which row
+applies to a given component or section, check with whoever built it which config
+type they picked (Default / Journey / Dashboard, GraphQL, or Single Submit)
+before creating the resource.
+
+### Publish this tab (inside the builder)
+
+The **Publish** button in the builder's top-right, next to **Preview** and
+**Save**, publishes only the **one tab you currently have open**:
+
+<Video src="SS-14.mp4" caption="Publishing a single tab from inside the builder." />
+
+**Choose Environment**: pick where to publish from the dropdown. You'll see
+testing environments (named like `uat`, `uat2`, `uat10`, ...) and the live one,
+**`prod`**.
+
+- Publish to a **uat** environment first to test safely.
+- Publish to **`prod`** only when you're confident, this is the live environment
+  real users see.
+
+Pick the environment and click **Publish**. Only the tab you have open goes out,
+the rest of the dashboard is untouched.
+
+<Callout>
+This button is disabled once the dashboard's overall status is already
+`published`, and while you're inside a component's build view (switch the Layers
+Panel back to **Tabs** first).
+</Callout>
+
+### Publish the whole dashboard (from the Dashboards list)
+
+To publish the **entire dashboard** at once, go to the **Dashboards list** (the
+screen you land on after login) and use that row's own Publish action instead:
+
+1. Find the dashboard in the list.
+2. Click its **Actions** menu (the **⋮** on the right of that row, the same menu
+   used for [Clone](/docs/cloning-a-dashboard)).
+3. Choose **Publish**.
+
+This opens the same-looking popup, but with one more field:
+
+<Video
+  src="SS-15.mp4"
+  aspectRatio={3876 / 2160}
+  caption="Publishing the whole dashboard from the Dashboards list."
+/>
+
+- **Choose Environment**: same as above.
+- **Select Tabs to Publish**: a checklist of the dashboard's tabs, so you can
+  publish everything or just specific tabs. Use **Select All** to toggle them all
+  at once (all are ticked by default).
+
+Pick the environment, confirm the tabs, and click **Publish**. Once published to
+`prod`, the dashboard's status becomes active and it's live for users.
+
+<Callout type="tip">
+Recommended flow: **Preview** to check, **Save** to keep a draft, publish to a
+**uat** environment to test (a single tab from inside the builder, or the whole
+dashboard from the Dashboards list), then publish to **`prod`** when ready.
+</Callout>

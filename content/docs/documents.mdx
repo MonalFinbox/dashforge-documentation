@@ -1,0 +1,78 @@
+---
+title: Documents
+description: Show and collect files, from KYC documents to signed mandates.
+---
+
+The **Documents** area is how a dashboard shows and collects files, such as a
+KYC document, an FI report, or a signed mandate. It has three levels:
+
+1. A **Document Section** groups related documents together (like a section, but
+   for files).
+2. Inside it, each **Document** represents one file slot of a specific type.
+3. Each document can have **Actions** (buttons like **Upload**) that let the user
+   act on it.
+
+## Adding a Document Section
+
+With a tab selected, click the `+` next to **DOCUMENTS** in the Layers Panel.
+The **Add New Document Section** box asks only for a **Section Name** (e.g.
+`Test Document`). Enter it and click **Add Section**.
+
+<Video src="SS-12.mp4" caption="Creating a document section and adding a document." />
+
+### Document Section properties
+
+Selecting the section shows:
+
+- **Name**: the section's heading.
+- **Visibility**: the standard three-state control (**Hidden**, **Visible**, or
+  **Conditional** via a Visibility Logic expression).
+- **Position**: where the section sits relative to others.
+- **Documents (n)**: the documents in this section, with a `+` to add one.
+
+## Adding a Document
+
+Click the `+` next to **Documents** in the section's properties. **Add New
+Document** asks for:
+
+- **Document Name**: the label the user sees (e.g. `FI Report`, `V-KYC
+  Document`).
+- **Document Type**: the file's category, chosen from a predefined list (e.g.
+  `FI_REPORT`). This ties the slot to the correct kind of document in your
+  system.
+
+Fill both and click **Add Document**.
+
+### Document properties
+
+- **Label**: the document's display name.
+- **Document Type**: the type set at creation, changeable here.
+- **Visibility**: three-state control (Hidden / Visible / Conditional).
+- **Editable**: whether the document can be changed (**Editable**,
+  **Read-only**, or Conditional via an Editable Rule).
+- **Allow Upload**: a simple on/off switch (**Enabled / Disabled**). When
+  enabled, an **Upload** button appears so the user can upload the file. When
+  off, the slot is view-only.
+- **Actions (n)**: buttons attached to the document, with a `+` to add one.
+  Enabling Allow Upload gives you an Upload action automatically.
+
+## Document Actions
+
+A document action is a button on the document (the **Upload** button is the
+typical one). Selecting it opens an editor identical to field actions:
+
+- **Button Name**: the button's text (e.g. `Upload`).
+- **Icon**: optional icon (Source, Orientation, value).
+- **Button Type**: fixed to **Primary**.
+- **Action Type**: **API** or **Function**, exactly like field actions. For an
+  upload, this is usually an **API** call.
+- **Edit Action Config**: opens the two JSON panels (**API Config** and **UI
+  Config**). For the Upload button, the UI Config carries the request details,
+  for example `endpoint: "upload-fi-doc"`, `method: "POST"`, and
+  `type: "api_call"`. Review or edit these, then **Save Config**.
+- **Visibility** and **Editable**: the same controls described earlier.
+
+<Callout>
+See [Field Actions](/docs/field-actions) for a full explanation of Action Type,
+Function vs API, and the config panels. They work the same way here.
+</Callout>

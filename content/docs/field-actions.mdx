@@ -1,0 +1,72 @@
+---
+title: Field Actions
+description: Attach a button to a field so users can trigger real operations, not just read data.
+---
+
+An **action** is a button attached to a field that *does something* when
+clicked, such as calling an API or running a built-in function (for example
+"Initiate Penny Drop" or "Dedupe Check"). This is how a dashboard goes from just
+showing information to letting users trigger real operations.
+
+## Adding an action
+
+In the field's Properties Panel, scroll to **Actions** and click the `+`. A new
+button is created and its editor opens (titled **Field Properties** with a
+**Back to Field** link at the top).
+
+<Video src="SS-10.mp4" caption="Adding an action button to a field." />
+
+## Button settings
+
+### Button Name
+
+The text shown on the button (e.g. `Test Click`).
+
+### Icon
+
+The same icon control as fields: turn it on to show an icon, then set
+**Source** (CDN or Heroicons), **Orientation** (Left/Right), and the icon value
+(a URL or a Heroicon name like `cursor-arrow-rays`).
+
+### Button Type
+
+Fixed to **Primary** and locked, so every action button gets the same standard
+styling. You don't need to change this.
+
+### Action Type
+
+This is the important choice, it decides what the button does:
+
+- **Function**: run a ready-made backend function that already exists in your
+  system. When you pick this, a **Function** dropdown appears listing the
+  available functions (e.g. `api_config_create_ucic`, `InitiatePennydrop`,
+  `api_config_enach_cancel`, `DedupeCheck`). Selecting one automatically fills in
+  its API details for you. Use this for standard operations that are already
+  built, which is the common case.
+- **API**: build a custom API call yourself. Nothing is pre-filled; you supply
+  the request details by hand in the config. Use this only when no ready-made
+  function fits.
+
+### Edit Action Config
+
+Once you've picked an API action (or picked a Function), an **Edit Action
+Config** link appears. Clicking it opens a popup with two JSON panels:
+
+- **API Config**: the actual request the system sends, for example `endpoint`,
+  `method` (like `POST`), `headers`, and the request `body`.
+- **UI Config**: how the dashboard treats the action, for example its `type`
+  (`api_call` or `function_call`) and, for functions, the `resourceName` of the
+  function you chose.
+
+If you selected a **Function**, both panels come pre-filled from that function,
+so you usually just review them. If you chose **API**, you fill the endpoint,
+method, and body yourself. Click **Save Config** to keep your changes, or
+**Cancel** to discard them.
+
+### Visibility
+
+Same three-state control as elsewhere: **Hidden**, **Visible**, or
+**Conditional** (shown only when the **Visibility Logic** expression is true).
+Use it to show the button only in certain situations.
+
+When you're done, click **Back to Field** to return to the field's settings.

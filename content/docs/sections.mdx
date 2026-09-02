@@ -1,0 +1,62 @@
+---
+title: Sections
+description: Group related fields into a card on the page. Every field lives inside a section.
+---
+
+A **section** is a block inside a tab that groups related fields together (think
+of it as a card on the page, e.g. "Applicant Info" or "Loan Details"). Every
+field, later, gets added inside a section, you can't add a field directly to a
+tab.
+
+## Adding a section
+
+Click the `+` next to **SECTIONS** in the Layers Panel. This opens **Add New
+Section**:
+
+<Screenshot
+  src="SS-06.jpg"
+  alt="The Add New Section modal with section type and name fields"
+/>
+
+<Video src="SS-08.mp4" caption="Adding a section to a tab." />
+
+**Section Type:**
+
+- **Section**: a plain block. Fields inside it are laid out directly as simple
+  label/value rows. Use this for most cases.
+- **Dynamic Section**: renders each field as its own labeled group, with the
+  field's own nested label/value rows underneath it (like a mini table per
+  field). Use this when a field itself represents a set of related sub-values,
+  not just a single value, e.g. a "Bank Details" field that needs to show
+  account number, IFSC, and branch together.
+
+**Section Name** is just the label shown on the card (e.g. `Applicant Info`).
+Type a name and click **Add Section**.
+
+## Section Properties
+
+Once a section is selected, the **Properties Panel** on the right shows
+everything you can configure for it:
+
+- **Name**: the section's heading, shown on the card in the live dashboard.
+  Editing it here updates the canvas instantly.
+- **Visibility**: a toggle to show or hide the whole section
+  (**Visible / Hidden**).
+- **Visibility Logic**: a switch (**Disable / Enable**). When *Disabled*, the
+  section simply follows the toggle above. When *Enabled*, you provide a
+  condition so the section shows only when a rule is met (e.g. only for certain
+  loan states). Leave it *Disabled* for now.
+- **Editable**: a toggle between **Editable** and **Read-only** for the
+  section's fields. It's set as read-only at the section level by default;
+  you'll usually control editability on individual fields instead.
+- **Field List Size** *(Dynamic Sections only)*: replaces the Editable toggle
+  when the section is dynamic. It takes an expression that tells the section how
+  many repeating items to render.
+- **Fields (n)**: the list of fields in this section, with a `+` to add one.
+  Empty to start ("No fields yet. Click + to add one.").
+- **Actions (n)**: buttons/actions attached to this section, with a `+` to add
+  one.
+- **EDIT CONFIG** *(top-right)*: opens the raw configuration for advanced users;
+  not needed for normal building.
+
+In the next step we'll use the **Fields +** button to add content.
