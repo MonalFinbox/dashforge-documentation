@@ -16,3 +16,7 @@ yarn-error.log*
 .vercel
 next-env.d.ts
 *.tsbuildinfo
+
+# Screenshots and screen recordings are hosted in Supabase Storage.
+# See lib/media.ts and NEXT_PUBLIC_MEDIA_BASE_URL.
+/public/media/

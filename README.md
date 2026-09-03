@@ -21,6 +21,8 @@ bun run dev
 ```
 
 The site runs at http://localhost:3000 and redirects to the first chapter.
+Screenshots and videos won't load without `.env.local` set, see
+[Media hosting](#media-hosting).
 
 Other scripts:
 
@@ -48,7 +50,7 @@ config/
   site.ts            site name, description, canonical URL
 content/docs/        one MDX file per chapter
 lib/                 content loading, TOC extraction, search index, media URLs
-public/media/        screenshots and screen recordings
+public/media/        local copies of screenshots/recordings, gitignored, not deployed
 ```
 
 ## Adding a chapter
@@ -82,14 +84,29 @@ recording differs, so the placeholder does not shift on play.
 
 ## Media hosting
 
-Screenshots and videos live in `public/media/` and every URL is resolved
-through `lib/media.ts`. To serve them from a CDN or object store instead, set:
+Screenshots and videos are hosted in a public Supabase Storage bucket
+(`dashforge-media`), not committed to the repo, `public/media/` is a
+gitignored local mirror for editing content offline. Every URL in content
+files is a bare filename (e.g. `SS-00.jpg`) resolved at render time through
+`lib/media.ts`, which prefixes it with `NEXT_PUBLIC_MEDIA_BASE_URL`:
 
 ```
-NEXT_PUBLIC_MEDIA_BASE_URL=https://cdn.example.com/dashforge-docs
+NEXT_PUBLIC_MEDIA_BASE_URL=https://<project-ref>.supabase.co/storage/v1/object/public/dashforge-media
 ```
 
-Content files stay unchanged, they only ever reference bare filenames.
+Required in two places:
+
+- **Locally**: `.env.local` (gitignored, not committed, ask a teammate for the
+  value or read it from the Vercel project settings).
+- **Vercel**: Project Settings → Environment Variables, same key and value,
+  applied to Production and Preview. This is separate from Supabase's own
+  "sync environment variables to Vercel" integration, that feature syncs
+  database credentials and does not know about this variable.
+
+To add a new screenshot or recording: drop the file in the Supabase Storage
+bucket (`dashforge-media`, must stay Public), and also into local
+`public/media/` so `bun run dev` can render it without hitting the network.
+Reference it in MDX by filename only, same as every other asset.
 
 ## Search
 
