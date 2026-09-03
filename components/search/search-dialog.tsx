@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation'
 import { FileText, Search } from 'lucide-react'
 
 import type { SearchRecord } from '@/lib/search'
+import { searchRecords } from '@/lib/search-score'
 import { cn } from '@/lib/utils'
 
-const MAX_RESULTS = 8
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
 interface SearchDialogProps {
   open: boolean
@@ -16,6 +18,7 @@ interface SearchDialogProps {
 
 export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const router = useRouter()
+  const panelRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const [query, setQuery] = useState('')
   const [highlighted, setHighlighted] = useState(0)
@@ -70,6 +73,8 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
         event.preventDefault()
         goTo(results[highlighted].slug)
       }
+
+      if (event.key === 'Tab') trapFocus(event, panelRef.current)
     }
 
     document.addEventListener('keydown', onKeyDown)
@@ -102,7 +107,10 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
         className="absolute inset-0 cursor-default bg-ink/20 backdrop-blur-[2px]"
       />
 
-      <div className="relative w-full max-w-xl overflow-hidden rounded-xl border border-line bg-canvas shadow-2xl shadow-ink/10">
+      <div
+        ref={panelRef}
+        className="relative w-full max-w-xl overflow-hidden rounded-xl border border-line bg-canvas shadow-2xl shadow-ink/10"
+      >
         <div className="flex items-center gap-3 border-b border-line px-4">
           <Search className="size-4 shrink-0 text-ink-muted" />
           <input
@@ -178,30 +186,24 @@ function useSearchIndex(enabled: boolean): SearchRecord[] {
   return index
 }
 
-/**
- * Field-weighted substring match. The corpus is a handful of chapters, so a
- * scored linear scan stays well under a frame and avoids an index dependency.
- */
-function searchRecords(
-  records: SearchRecord[],
-  query: string
-): SearchRecord[] {
-  const term = query.trim().toLowerCase()
-  if (!term) return []
+/** Keeps Tab/Shift+Tab cycling within the dialog instead of reaching the page behind it */
+function trapFocus(event: KeyboardEvent, container: HTMLElement | null) {
+  if (!container) return
 
-  const scored = records
-    .map(record => {
-      let score = 0
+  const focusable = Array.from(
+    container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
+  )
+  if (focusable.length === 0) return
 
-      if (record.title.toLowerCase().includes(term)) score += 10
-      if (record.description.toLowerCase().includes(term)) score += 4
-      if (record.headings.some(h => h.toLowerCase().includes(term))) score += 3
-      if (record.body.toLowerCase().includes(term)) score += 1
+  const first = focusable[0]
+  const last = focusable[focusable.length - 1]
+  const active = document.activeElement
 
-      return { record, score }
-    })
-    .filter(entry => entry.score > 0)
-    .sort((a, b) => b.score - a.score)
-
-  return scored.slice(0, MAX_RESULTS).map(entry => entry.record)
+  if (event.shiftKey && active === first) {
+    event.preventDefault()
+    last.focus()
+  } else if (!event.shiftKey && active === last) {
+    event.preventDefault()
+    first.focus()
+  }
 }

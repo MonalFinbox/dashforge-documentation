@@ -18,7 +18,7 @@ const MDX_NOISE_PATTERNS: RegExp[] = [
 
 const BODY_CHARACTER_LIMIT = 1200
 
-function toPlainText(mdx: string): string {
+export function toPlainText(mdx: string): string {
   let text = mdx
 
   for (const pattern of MDX_NOISE_PATTERNS) {
