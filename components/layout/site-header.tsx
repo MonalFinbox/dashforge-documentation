@@ -34,6 +34,13 @@ export function SiteHeader() {
 
   return (
     <>
+      <a
+        href="#main-content"
+        className="fixed top-2 left-2 z-50 -translate-y-16 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-transform focus-visible:translate-y-0"
+      >
+        Skip to content
+      </a>
+
       <header className="sticky top-0 z-40 h-(--layout-header-height) border-b border-line bg-canvas/85 backdrop-blur-md">
         <div className="mx-auto flex h-full max-w-[100rem] items-center gap-4 px-4 sm:px-6">
           <button

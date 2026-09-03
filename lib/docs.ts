@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { cache } from 'react'
 import matter from 'gray-matter'
 
 import { flatNavigation } from '@/config/navigation'
@@ -37,7 +38,13 @@ function assertFrontmatter(
   return { title, description }
 }
 
-export async function getDoc(slug: string): Promise<Doc | null> {
+/**
+ * cache() dedupes repeat calls for the same slug within one render pass
+ * (e.g. a page reading its own doc plus something else reading it for a
+ * sitemap), without holding content across separate requests, so editing an
+ * MDX file in dev is still picked up on the next request.
+ */
+export const getDoc = cache(async (slug: string): Promise<Doc | null> => {
   const filePath = path.join(DOCS_DIRECTORY, `${slug}.mdx`)
 
   let raw: string
@@ -55,15 +62,15 @@ export async function getDoc(slug: string): Promise<Doc | null> {
     content,
     toc: extractToc(content),
   }
-}
+})
 
-export async function getAllDocs(): Promise<Doc[]> {
+export const getAllDocs = cache(async (): Promise<Doc[]> => {
   const docs = await Promise.all(
     flatNavigation.map(item => getDoc(item.slug))
   )
 
   return docs.filter((doc): doc is Doc => doc !== null)
-}
+})
 
 export function getDocSlugs(): string[] {
   return flatNavigation.map(item => item.slug)

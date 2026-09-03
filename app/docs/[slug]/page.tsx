@@ -44,7 +44,7 @@ export default async function DocPage({ params }: PageProps) {
 
   return (
     <>
-      <main className="min-w-0 flex-1 py-10 lg:px-10">
+      <main id="main-content" className="min-w-0 flex-1 py-10 lg:px-10">
         <article className="mx-auto max-w-(--layout-content-width)">
           {section && <Breadcrumbs section={section.title} page={doc.title} />}
 
