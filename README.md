@@ -6,15 +6,18 @@ documentation site with Next.js.
 ## Stack
 
 - Next.js (App Router) with static generation, every page is prerendered
+- Bun as package manager and script runner
 - TypeScript
 - Tailwind CSS v4 (theme tokens live in `app/globals.css`)
 - MDX content compiled at build time via `next-mdx-remote`
 
 ## Running locally
 
+Requires [Bun](https://bun.sh).
+
 ```bash
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
 The site runs at http://localhost:3000 and redirects to the first chapter.
@@ -22,10 +25,14 @@ The site runs at http://localhost:3000 and redirects to the first chapter.
 Other scripts:
 
 ```bash
-npm run build      # production build
-npm run typecheck  # tsc --noEmit
-npm run lint       # next lint
+bun run build      # production build
+bun run typecheck  # tsc --noEmit
+bun run lint       # next lint
 ```
+
+Bun is the package manager and script runner. Next.js itself still runs on
+Node, which is the supported configuration, so do not add `--bun` to these
+scripts.
 
 ## Project layout
 
